@@ -1,27 +1,27 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+// Production Backend (Render)
+const API_BASE_URL = "https://xyzentrix-5.onrender.com/api";
 
+async function handleResponse(response: Response, errorMessage: string) {
+  if (!response.ok) {
+    throw new Error(errorMessage);
+  }
+  return response.json();
+}
+
+// Health
 export async function getHealthStatus() {
   const response = await fetch(`${API_BASE_URL}/health/`);
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch backend status.");
-  }
-
-  return response.json();
+  return handleResponse(response, "Failed to fetch backend status.");
 }
 
+// Company Profile
 export async function getCompanyProfile() {
   const response = await fetch(`${API_BASE_URL}/company/`);
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch company profile.");
-  }
-
-  return response.json();
+  return handleResponse(response, "Failed to fetch company profile.");
 }
 
-
-type ContactFormData = {
+// Contact
+export type ContactFormData = {
   name: string;
   email: string;
   phone: string;
@@ -38,15 +38,11 @@ export async function sendContactMessage(data: ContactFormData) {
     body: JSON.stringify(data),
   });
 
-  if (!response.ok) {
-    throw new Error("Failed to send message.");
-  }
-
-  return response.json();
+  return handleResponse(response, "Failed to send message.");
 }
 
-
-type ChatMessage = {
+// XAi Assistant
+export type ChatMessage = {
   sender: "user" | "assistant";
   text: string;
 };
@@ -66,9 +62,5 @@ export async function sendAssistantMessage(
     }),
   });
 
-  if (!response.ok) {
-    throw new Error("Assistant is unavailable.");
-  }
-
-  return response.json();
+  return handleResponse(response, "Assistant is unavailable.");
 }
