@@ -1,0 +1,19 @@
+---
+
+name: Feature Request
+about: Suggest a new feature
+title: "[FEATURE]"
+labels: enhancement
+-------------------
+
+## Feature
+
+Describe the feature.
+
+## Why is it needed?
+
+Explain the business value.
+
+## Additional Notes
+
+(Optional)
