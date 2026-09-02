@@ -1,6 +1,7 @@
 from pathlib import Path
 from decouple import config
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -17,7 +18,23 @@ DEBUG = config("DEBUG", default=True, cast=bool)
 
 OPENAI_API_KEY = config("OPENAI_API_KEY", default="")
 
-ALLOWED_HOSTS = []
+from decouple import config
+
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in config(
+        "ALLOWED_HOSTS",
+        default="127.0.0.1,localhost,xyzentrix-5.onrender.com",
+    ).split(",")
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in config(
+        "CSRF_TRUSTED_ORIGINS",
+        default="http://127.0.0.1:8000,http://localhost:8000,https://xyzentrix-5.onrender.com",
+    ).split(",")
+]
 
 
 # Application definition
