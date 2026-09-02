@@ -139,16 +139,13 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 # React production assets
 
+
+
 # ==========================
-# Static Files (React + Django)
+# Static Files (Django)
 # ==========================
 
-STATIC_URL = "/assets/"
-
-STATICFILES_DIRS = [
-    BASE_DIR.parent / "frontend" / "dist" / "assets",
-]
-
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
