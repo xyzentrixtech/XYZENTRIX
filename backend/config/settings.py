@@ -27,12 +27,11 @@ ALLOWED_HOSTS = [
         default="127.0.0.1,localhost,xyzentrix-5.onrender.com",
     ).split(",")
 ]
-
 CSRF_TRUSTED_ORIGINS = [
     origin.strip()
     for origin in config(
         "CSRF_TRUSTED_ORIGINS",
-        default="http://127.0.0.1:8000,http://localhost:8000,https://xyzentrix-5.onrender.com",
+        default="http://127.0.0.1:8000,http://localhost:8000,https://xyzentrix-5.onrender.com,https://xyzentrix.vercel.app",
     ).split(",")
 ]
 
@@ -145,6 +144,7 @@ MAILERS = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://xyzentrix.vercel.app",
 ]
 
 
