@@ -4,8 +4,8 @@ from django.db import models
 class ContactMessage(models.Model):
     STATUS_CHOICES = [
         ("new", "New"),
-        ("in_progress", "In Progress"),
-        ("completed", "Completed"),
+        ("contacted", "Contacted"),
+        ("closed", "Closed"),
     ]
 
     name = models.CharField(max_length=100)
@@ -17,10 +17,16 @@ class ContactMessage(models.Model):
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
-        default="new"
+        default="new",
     )
 
+    # NEW: Internal CRM notes
+    notes = models.TextField(blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
+
+    # NEW: Track latest update
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["-created_at"]
