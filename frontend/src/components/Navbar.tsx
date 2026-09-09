@@ -1,19 +1,25 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getCompanyProfile } from "../services/api";
-const MEDIA_BASE_URL = import.meta.env.VITE_MEDIA_URL;
+
+type CompanyResponse = {
+  company_name: string;
+  logo: string | null;
+};
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [companyName, setCompanyName] = useState("XYZENTRIX");
   const [logo, setLogo] = useState("");
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     async function loadCompany() {
       try {
-        const company = await getCompanyProfile();
-        setCompanyName(company.company_name);
+        const company: CompanyResponse = await getCompanyProfile();
+        setCompanyName(company.company_name || "XYZENTRIX");
         setLogo(company.logo || "");
+        setImageError(false);
       } catch (error) {
         console.error("Failed to load company profile:", error);
       }
@@ -35,11 +41,12 @@ function Navbar() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-3">
-          {logo ? (
+          {logo && !imageError ? (
             <img
-              src={`${MEDIA_BASE_URL}${logo}`}
+              src={logo}
               alt={companyName}
               className="h-10 w-10 rounded-lg object-contain"
+              onError={() => setImageError(true)}
             />
           ) : (
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#39FF14] text-lg font-bold text-black">
@@ -60,11 +67,9 @@ function Navbar() {
               to={item.path}
               end={item.path === "/"}
               className={({ isActive }) =>
-                `transition-colors ${
-                  isActive
-                    ? "text-[#39FF14]"
-                    : "text-white hover:text-[#39FF14]"
-                }`
+                isActive
+                  ? "text-[#39FF14] transition-colors"
+                  : "text-white hover:text-[#39FF14] transition-colors"
               }
             >
               {item.name}
@@ -92,11 +97,9 @@ function Navbar() {
               end={item.path === "/"}
               onClick={() => setMenuOpen(false)}
               className={({ isActive }) =>
-                `block px-6 py-4 transition-colors ${
-                  isActive
-                    ? "bg-[#39FF14]/10 text-[#39FF14]"
-                    : "text-white hover:bg-white/5 hover:text-[#39FF14]"
-                }`
+                isActive
+                  ? "block bg-[#39FF14]/10 px-6 py-4 text-[#39FF14] transition-colors"
+                  : "block px-6 py-4 text-white hover:bg-white/5 hover:text-[#39FF14] transition-colors"
               }
             >
               {item.name}
