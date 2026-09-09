@@ -114,3 +114,40 @@ export async function getPortfolio(): Promise<PortfolioProject[]> {
   const response = await fetch(`${API_BASE_URL}/portfolio/`);
   return handleResponse(response, "Failed to fetch portfolio.");
 }
+
+
+// ==========================
+// Admin Login (JWT)
+// ==========================
+
+export async function adminLogin(username: string, password: string) {
+  const response = await fetch(`${API_BASE_URL}/token/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username,
+      password,
+    }),
+  });
+
+  return handleResponse(response, "Invalid username or password.");
+}
+
+
+// ==========================
+// Dashboard Stats
+// ==========================
+
+export async function getDashboardStats() {
+  const token = localStorage.getItem("access_token");
+
+  const response = await fetch(`${API_BASE_URL}/contact/dashboard/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return handleResponse(response, "Failed to load dashboard.");
+}
